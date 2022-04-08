@@ -23,4 +23,4 @@ run
 /mcmodsrepo/
 **/.cache
 log*.txt
-src/generated/
+src/generated/resources
