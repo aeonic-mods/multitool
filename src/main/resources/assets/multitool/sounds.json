@@ -1,0 +1,17 @@
+{
+  "gui.multitool.multitool.open": {
+    "sounds": [
+      "multitool:multitool/open"
+    ]
+  },
+  "gui.multitool.multitool.select": {
+    "sounds": [
+      "multitool:multitool/select"
+    ]
+  },
+  "gui.multitool.multitool.close": {
+    "sounds": [
+      "multitool:multitool/close"
+    ]
+  }
+}
