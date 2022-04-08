@@ -12,13 +12,14 @@ import net.minecraft.world.item.Items;
 
 /**
  * An empty behavior that can be used by players to disable all functionality temporarily and as a fallback when registry fetching fails.
+ * Also the only behavior (by default) that cannot be disabled or locked behind advancements etc.
  */
 public class EmptyBehavior extends MultitoolBehavior {
     public static final EmptyBehavior INSTANCE = new EmptyBehavior();
     public static final ResourceLocation KEY = Locations.make("empty");
 
     @Override
-    public void renderHudIcon(PoseStack stack, int x, int y) {
+    public void drawHudIcon(PoseStack stack, int x, int y) {
         Minecraft.getInstance().getItemRenderer().renderGuiItem(new ItemStack(Items.BARRIER), x - 8, y - 8);
     }
 

@@ -1,6 +1,7 @@
 package design.aeonic.multitool.api.multitool;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import design.aeonic.multitool.api.ui.ISelectable;
+import design.aeonic.multitool.client.MultitoolSelectScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -21,38 +22,34 @@ import java.util.List;
 /**
  * Describes a setting for the multitool. Must be registered with {@link }
  */
-public abstract class MultitoolBehavior extends ForgeRegistryEntry<MultitoolBehavior> {
+public abstract class MultitoolBehavior extends ForgeRegistryEntry<MultitoolBehavior> implements ISelectable<MultitoolSelectScreen, MultitoolBehavior> {
 
-    // BEHAVIOR + DATA
+    // BEHAVIOR DEFINITION
 
-    /**
-     * Checks whether the behavior should show in the selection screen. This is not a replacement for {@link #allowedForPlayer}!
-     */
-    public boolean showInSelectionScreen(LocalPlayer player, ItemStack multitool) {
+    @Override
+    public final boolean showInSelectionScreen(LocalPlayer player, MultitoolSelectScreen screen) {
+        return showInSelectionScreen(player, screen.hand, screen.multitool);
+    }
+
+    @Override
+    public final boolean allowedForPlayer(Player player, MultitoolSelectScreen screen) {
+        return allowedForPlayer(player, screen.hand, screen.multitool);
+    }
+
+    public boolean showInSelectionScreen(LocalPlayer player, InteractionHand hand, ItemStack multitool) {
         return true;
     }
 
-    /**
-     * Checks whether the given player can use this behavior. This is checked on both sides;
-     * however, if the client returns false, the server won't receive a packet at all and the behavior will never be selected.
-     */
-    public boolean allowedForPlayer(Player player, ItemStack multitool) {
+    public boolean allowedForPlayer(Player player, InteractionHand hand, ItemStack multitool) {
         return true;
     }
 
-    /**
-     * Called on both sides when the behavior is selected from the selection screen.
-     * @param player the player
-     * @param stack the multitool stack
-     */
-    public void onSelected(Player player, ItemStack stack) {}
+    // CLIENT
 
     /**
-     * Called on both sides when the behavior is selected from the selection screen.
-     * @param player the player
-     * @param stack the multitool stack
+     * Called by the multitool item's own method when this behavior is active.
      */
-    public void onDeselected(Player player, ItemStack stack) {}
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {}
 
     // INTERACTIONS
 
@@ -87,21 +84,4 @@ public abstract class MultitoolBehavior extends ForgeRegistryEntry<MultitoolBeha
      * Called by the multitool item's own method when this behavior is active.
      */
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {}
-
-    // CLIENT
-
-    /**
-     * Gets the behavior's icon to render in the HUD and wherever relevant, in the form of an itemstack.
-     */
-    public abstract void renderHudIcon(PoseStack stack, int x, int y);
-
-    /**
-     * Gets the behavior's display name for GUIs.
-     */
-    public abstract Component getDisplayName();
-
-    /**
-     * Called by the multitool item's own method when this behavior is active.
-     */
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {}
 }
