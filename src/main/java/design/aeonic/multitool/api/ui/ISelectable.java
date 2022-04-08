@@ -1,15 +1,12 @@
 package design.aeonic.multitool.api.ui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import design.aeonic.multitool.api.ui.client.RadialSelectScreen;
 import design.aeonic.multitool.client.MultitoolSelectScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-
-import javax.annotation.Nullable;
 
 /**
  * Describes a selectable object in a radial selection screen.

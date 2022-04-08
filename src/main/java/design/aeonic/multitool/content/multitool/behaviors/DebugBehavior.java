@@ -1,8 +1,8 @@
 package design.aeonic.multitool.content.multitool.behaviors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import design.aeonic.multitool.api.Constants;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
-import design.aeonic.multitool.data.Translations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -30,7 +30,7 @@ public class DebugBehavior extends MultitoolBehavior {
 
     @Override
     public Component getDisplayName() {
-        return Translations.MULTITOOL_DEBUG;
+        return Constants.Translations.MULTITOOL_DEBUG;
     }
 
 //    @Override

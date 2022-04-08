@@ -1,8 +1,8 @@
 package design.aeonic.multitool.content.multitool.behaviors;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import design.aeonic.multitool.api.Constants;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
-import design.aeonic.multitool.data.Translations;
 import design.aeonic.multitool.util.Locations;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -25,6 +25,6 @@ public class EmptyBehavior extends MultitoolBehavior {
 
     @Override
     public Component getDisplayName() {
-        return Translations.MULTITOOL_EMPTY;
+        return Constants.Translations.MULTITOOL_EMPTY;
     }
 }

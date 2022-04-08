@@ -1,4 +1,4 @@
-package design.aeonic.multitool.data.recipes;
+package design.aeonic.multitool.api.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

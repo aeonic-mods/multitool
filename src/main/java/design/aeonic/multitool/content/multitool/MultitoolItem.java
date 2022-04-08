@@ -1,13 +1,12 @@
 package design.aeonic.multitool.content.multitool;
 
+import design.aeonic.multitool.api.Constants;
 import design.aeonic.multitool.api.Registries;
-import design.aeonic.multitool.api.Styles;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
 import design.aeonic.multitool.client.MultitoolSelectScreen;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
 import design.aeonic.multitool.content.multitool.networking.BehaviorSelectPacket;
 import design.aeonic.multitool.content.multitool.networking.MultitoolPacketHandler;
-import design.aeonic.multitool.data.Translations;
 import design.aeonic.multitool.registry.EMItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -132,7 +131,7 @@ public class MultitoolItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Translations.MULTITOOL_MODE.copy().withStyle(Styles.TOOLTIP_PLAIN).append(getSelectedBehavior(pStack).getDisplayName().copy().withStyle(Styles.TOOLTIP_SETTING)));
+        pTooltipComponents.add(Constants.Translations.MULTITOOL_MODE.copy().withStyle(Constants.Styles.TOOLTIP_PLAIN).append(getSelectedBehavior(pStack).getDisplayName().copy().withStyle(Constants.Styles.TOOLTIP_SETTING)));
 
         getSelectedBehavior(pStack).appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
 

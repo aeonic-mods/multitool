@@ -1,10 +1,9 @@
-package design.aeonic.multitool.api.ui.client;
+package design.aeonic.multitool.api.ui;
 
 import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import design.aeonic.multitool.api.client.RenderUtils;
-import design.aeonic.multitool.api.ui.ISelectable;
 import design.aeonic.multitool.registry.EMSounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,7 +11,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Collection;
 import java.util.List;

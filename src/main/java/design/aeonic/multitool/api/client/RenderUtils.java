@@ -3,7 +3,7 @@ package design.aeonic.multitool.api.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
-import design.aeonic.multitool.api.ui.client.RadialSelectScreen;
+import design.aeonic.multitool.api.ui.RadialSelectScreen;
 import net.minecraft.client.renderer.GameRenderer;
 
 public class RenderUtils {

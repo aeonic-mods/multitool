@@ -1,12 +1,12 @@
 package design.aeonic.multitool;
 
+import design.aeonic.multitool.api.Constants;
 import design.aeonic.multitool.api.Registries;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
 import design.aeonic.multitool.content.multitool.behaviors.DebugBehavior;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
 import design.aeonic.multitool.content.multitool.networking.MultitoolPacketHandler;
-import design.aeonic.multitool.data.Translations;
-import design.aeonic.multitool.data.recipes.MultitoolBuildingRecipe;
+import design.aeonic.multitool.api.data.MultitoolBuildingRecipe;
 import design.aeonic.multitool.registry.EMItems;
 import design.aeonic.multitool.registry.EMRecipeTypes;
 import design.aeonic.multitool.registry.EMRegistrate;
@@ -63,6 +63,6 @@ public class EngineersMultitool {
 
     @SubscribeEvent
     public static void runData(GatherDataEvent event) {
-        Translations.load();
+        Constants.Translations.load();
     }
 }

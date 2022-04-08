@@ -2,7 +2,7 @@ package design.aeonic.multitool.registry;
 
 import com.google.common.base.Suppliers;
 import design.aeonic.multitool.api.Constants;
-import design.aeonic.multitool.data.recipes.MultitoolBuildingRecipe;
+import design.aeonic.multitool.api.data.MultitoolBuildingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.function.Supplier;
