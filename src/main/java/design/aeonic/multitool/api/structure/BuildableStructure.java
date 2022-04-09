@@ -6,6 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
+/**
+ * Represents a structure with some extra data used for placement with the structure building mode
+ */
 public record BuildableStructure(ResourceLocation structure, List<AttachmentPoint> attachmentPoints) {
 
     public static final Codec<BuildableStructure> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -13,9 +16,21 @@ public record BuildableStructure(ResourceLocation structure, List<AttachmentPoin
             AttachmentPoint.CODEC.listOf().fieldOf("attachmentPoints").forGetter(BuildableStructure::attachmentPoints)
     ).apply(instance, BuildableStructure::new));
 
+    /**
+     * Describes the current state of a structure that's being built (or selected in the building tool) at a particular position
+     */
     enum PlacementState {
-        OK,         // The structure can be placed here
-        OCCLUDED,   // The structure preview should render but it cannot be placed here as its space is occluded by blocks
-        INVALID     // The structure preview should not render and it cannot be placed here
+        /**
+         * The structure can be placed here
+         */
+        OK,
+        /**
+         * The structure preview should render but it cannot be placed here as its space is occluded by blocks
+         */
+        OCCLUDED,
+        /**
+         * The structure preview should not render and it cannot be placed here
+         */
+        INVALID
     }
 }

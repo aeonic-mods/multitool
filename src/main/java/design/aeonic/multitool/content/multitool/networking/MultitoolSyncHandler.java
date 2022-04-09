@@ -7,8 +7,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.Objects;
 
-public class MultitoolPacketHandler {
-    private static final String PROTOCOL_VERSION = "awooga booga";
+public class MultitoolSyncHandler {
+    private static final String PROTOCOL_VERSION = "MultitoolSyncHandler_v0.1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             Locations.make("multitool"),
             () -> PROTOCOL_VERSION,

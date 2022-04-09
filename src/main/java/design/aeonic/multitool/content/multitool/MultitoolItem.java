@@ -6,7 +6,7 @@ import design.aeonic.multitool.api.multitool.MultitoolBehavior;
 import design.aeonic.multitool.client.MultitoolSelectScreen;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
 import design.aeonic.multitool.content.multitool.networking.BehaviorSelectPacket;
-import design.aeonic.multitool.content.multitool.networking.MultitoolPacketHandler;
+import design.aeonic.multitool.content.multitool.networking.MultitoolSyncHandler;
 import design.aeonic.multitool.registry.EMItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -76,7 +76,7 @@ public class MultitoolItem extends Item {
         if (player instanceof ServerPlayer serverPlayer) {
             setSelectedBehavior(player, stack, behavior);
         } else {
-            MultitoolPacketHandler.INSTANCE.sendToServer(new BehaviorSelectPacket(behavior, hand));
+            MultitoolSyncHandler.INSTANCE.sendToServer(new BehaviorSelectPacket(behavior, hand));
         }
     }
 
