@@ -81,7 +81,7 @@ public class RadialSelectScreen<T extends RadialSelectScreen<T, S>, S extends IS
         double time = Blaze3D.getTime();
         int hovered = getHoveredOptionIndex(pMouseX, pMouseY);
         // If enough time has gone by since the last hover sound, play the hover sound
-        if (hovered != this.selectedIndex && options.get(hovered).allowedForPlayer(player, (T) this)) {
+        if (hovered != this.selectedIndex && options.get(hovered).allowedForPlayer(player, (T) this) && time - lastHoverSound > .04f) {
             playSelectSound();
             lastHoverSound = time;
         }

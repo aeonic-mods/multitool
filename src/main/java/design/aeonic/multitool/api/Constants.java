@@ -13,17 +13,18 @@ public final class Constants {
         public static final Style TOOLTIP_PLAIN = Style.EMPTY.withColor(ChatFormatting.GRAY);
         public static final Style TOOLTIP_SETTING = Style.EMPTY.withColor(ChatFormatting.BLUE);
         public static final Style TOOLTIP_KEYBIND = Style.EMPTY.withColor(ChatFormatting.YELLOW).withBold(true);
+        public static final Style ACTIONBAR_INFO = Style.EMPTY.withColor(ChatFormatting.WHITE).withBold(true);
     }
 
     public static class Translations {
         // Multitool
-        public static final TranslatableComponent MULTITOOL_MODE = make("Mode: ","gui", MOD_ID, "multitool.mode");
-        public static final TranslatableComponent MULTITOOL_EMPTY = make("Empty", "gui", MOD_ID, "multitool.behavior.empty");
-        public static final TranslatableComponent MULTITOOL_DEBUG = make("Debug", "gui", MOD_ID, "multitool.behavior.debug");
-        public static final TranslatableComponent MULTITOOL_MACHINE_BUILDING = make("Machine Building", "gui", MOD_ID, "multitool.behavior.machine_building");
+        public static final TranslatableComponent MULTITOOL_MODE = make("Mode: ","gui", MOD_ID, "mode");
+        public static final TranslatableComponent MULTITOOL_EMPTY = make("Empty", "gui", MOD_ID, "behavior.empty");
+        public static final TranslatableComponent MULTITOOL_DEBUG = make("Debug", "gui", MOD_ID, "behavior.debug");
+        public static final TranslatableComponent MULTITOOL_STRUCTURE_BUILDING = make("Building", "gui", MOD_ID, "behavior.structure_building");
 
         // Screens
-        public static final TranslatableComponent MULTITOOL_SELECTION_SCREEN = make("Multitool Mode Select", "gui", MOD_ID, "screen.multitool.select");
+        public static final TranslatableComponent MULTITOOL_SELECTION_SCREEN = make("Multitool Mode Select", "gui", MOD_ID, "screen.select");
 
         public static TranslatableComponent make(String english, String... path) {
             return make(english, StringUtils.join(path, "."));

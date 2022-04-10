@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "mixins.immersivemanufacturing.refmap.json",
   "mixins": [
+    "access.StructureTemplateAccess"
   ],
   "client": [],
   "minVersion": "0.8.4"

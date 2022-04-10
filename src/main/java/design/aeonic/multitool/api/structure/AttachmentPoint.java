@@ -11,7 +11,7 @@ import net.minecraft.core.Vec3i;
  * By default the multitool doesn't use these attachment points; Immersive Manufacturing implements them and other mods are free to make use of them similarly.
  * @param type        the type of this attachment
  * @param face        the face this attachment is exposed on (when the structure is facing north)
- * @param relativePos the position of this attachment relative to the "master" block (again, when the structure is facing north)
+ * @param relativePos the position of this attachment relative to the structure's 0,0,0 (again, when the structure is facing north)
  */
 public record AttachmentPoint(AttachmentType type, Direction face, Vec3i relativePos) {
     public static Codec<AttachmentPoint> CODEC = RecordCodecBuilder.create(instance -> instance.group(

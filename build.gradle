@@ -153,8 +153,6 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
 
-	implementation fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:${ie_version}")
-
     shade fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
 	// data
@@ -176,7 +174,7 @@ def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/productio
 def replaceProperties = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
 	mod_authors: mod_authors, mod_description: mod_description,
 	minecraft_version_range: minecraft_version_range, forge_version_range: forge_version_range,
-	loader_version_range: loader_version_range, ie_version: ie_version, jei_version: jei_version
+	loader_version_range: loader_version_range, jei_version: jei_version
 ]
 processResources {
 	inputs.properties replaceProperties

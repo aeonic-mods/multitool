@@ -32,17 +32,4 @@ public class DebugBehavior extends MultitoolBehavior {
     public Component getDisplayName() {
         return Constants.Translations.MULTITOOL_DEBUG;
     }
-
-//    @Override
-//    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext ctx) {
-//        Level level = ctx.getLevel();
-//        BlockPos pos = ctx.getClickedPos();
-//        BuildableStructure multiblock;
-//        if (ctx.getPlayer() instanceof ServerPlayer player && (multiblock = BuildableStructureHelper.getMultiblock(level, pos)) != null) {
-//            Vec3i offset = ((MultiblockPartBlockEntity<?>) Objects.requireNonNull(level.getBlockEntity(pos))).offsetToMaster;
-//            player.displayClientMessage(new TextComponent(multiblock.getMultiblock().getUniqueName().getPath()).append(" " + offset + " " + multiblock.getAttachmentPoint(offset, level.getBlockState(pos).getValue(IEProperties.FACING_HORIZONTAL))), true);
-//            return InteractionResult.sidedSuccess(ctx.getLevel().isClientSide());
-//        }
-//        return super.onItemUseFirst(stack, ctx);
-//    }
 }

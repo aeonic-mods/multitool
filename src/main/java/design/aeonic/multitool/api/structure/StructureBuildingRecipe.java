@@ -1,11 +1,10 @@
-package design.aeonic.multitool.api.data;
+package design.aeonic.multitool.api.structure;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import design.aeonic.multitool.EngineersMultitool;
-import design.aeonic.multitool.api.structure.BuildableStructure;
 import design.aeonic.multitool.registry.EMRecipeTypes;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.Advancement;
@@ -38,7 +37,7 @@ import java.util.function.Consumer;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public record MultitoolBuildingRecipe(ResourceLocation recipeId, BuildableStructure structure, List<Ingredient> ingredients) implements Recipe<Container> {
+public record StructureBuildingRecipe(ResourceLocation recipeId, BuildableStructure structure, List<Ingredient> ingredients) implements Recipe<Container> {
     public static Serializer SERIALIZER = new Serializer();
 
     @Override
@@ -76,12 +75,12 @@ public record MultitoolBuildingRecipe(ResourceLocation recipeId, BuildableStruct
         return EMRecipeTypes.MULTITOOL_BUILDING.get();
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MultitoolBuildingRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<StructureBuildingRecipe> {
         @Override
-        public MultitoolBuildingRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+        public StructureBuildingRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             NonNullList<Ingredient> ingredients = itemsFromJson(GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients"));
             BuildableStructure structure = BuildableStructure.CODEC.parse(JsonOps.INSTANCE, GsonHelper.getAsJsonObject(pSerializedRecipe, "structure")).getOrThrow(false, EngineersMultitool.LOGGER::error);
-            return new MultitoolBuildingRecipe(pRecipeId, structure, ingredients);
+            return new StructureBuildingRecipe(pRecipeId, structure, ingredients);
         }
 
         private static NonNullList<Ingredient> itemsFromJson(JsonArray pIngredientArray) {
@@ -96,18 +95,18 @@ public record MultitoolBuildingRecipe(ResourceLocation recipeId, BuildableStruct
 
         @Nullable
         @Override
-        public MultitoolBuildingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        public StructureBuildingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             BuildableStructure structure = pBuffer.readWithCodec(BuildableStructure.CODEC);
             int size = pBuffer.readVarInt();
             NonNullList<Ingredient> ingredients = NonNullList.withSize(size, Ingredient.EMPTY);
             for (int i = 0; i < size; i++) {
                 ingredients.add(Ingredient.fromNetwork(pBuffer));
             }
-            return new MultitoolBuildingRecipe(pRecipeId, structure, ingredients);
+            return new StructureBuildingRecipe(pRecipeId, structure, ingredients);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf pBuffer, MultitoolBuildingRecipe pRecipe) {
+        public void toNetwork(FriendlyByteBuf pBuffer, StructureBuildingRecipe pRecipe) {
             pBuffer.writeWithCodec(BuildableStructure.CODEC, pRecipe.structure());
             pBuffer.writeVarInt(pRecipe.ingredients().size());
             for (var ingredient: pRecipe.ingredients()) {
