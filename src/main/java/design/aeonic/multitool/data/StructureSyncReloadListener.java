@@ -1,6 +1,6 @@
 package design.aeonic.multitool.data;
 
-import design.aeonic.multitool.api.structure.StructureSyncHandler;
+import design.aeonic.multitool.network.StructureSyncHandler;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 

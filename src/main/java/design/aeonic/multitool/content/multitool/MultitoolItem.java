@@ -5,8 +5,8 @@ import design.aeonic.multitool.api.Registries;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
 import design.aeonic.multitool.client.MultitoolSelectScreen;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
-import design.aeonic.multitool.content.multitool.networking.BehaviorSelectPacket;
-import design.aeonic.multitool.content.multitool.networking.MultitoolSyncHandler;
+import design.aeonic.multitool.network.ServerBoundBehaviorSelectPacket;
+import design.aeonic.multitool.network.MultitoolSyncHandler;
 import design.aeonic.multitool.registry.EMItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -22,7 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -78,7 +77,7 @@ public class MultitoolItem extends Item {
         if (player instanceof ServerPlayer) {
             setSelectedBehavior(player, hand, stack, behavior);
         } else {
-            MultitoolSyncHandler.INSTANCE.sendToServer(new BehaviorSelectPacket(behavior, hand));
+            MultitoolSyncHandler.INSTANCE.sendToServer(new ServerBoundBehaviorSelectPacket(behavior, hand));
         }
     }
 

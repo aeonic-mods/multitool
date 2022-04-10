@@ -12,14 +12,11 @@ import java.util.Objects;
 
 public class Holograms {
 
-    public static boolean drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTick, BlockPos pos, Vector3f renderPos, Direction direction, BuildableStructure structure, boolean drawBoundingBox) {
-        StructureInfo info = structure.getStructureInfo();
-        if (info == null) return false;
+    public static void drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTick, BlockPos pos, Vector3f renderPos, Direction direction, BuildableStructure structure, StructureInfo info, boolean drawBoundingBox) {
         Vector3f renderVec = renderPos == null ? new Vector3f(pos.getX(), pos.getY(), pos.getZ()) : renderPos.copy();
         BuildableStructure.PlacementState state = structure.checkPlacement(Objects.requireNonNull(minecraft.level), pos, info, direction);
-        if (state == BuildableStructure.PlacementState.INVALID) return false;
+        if (state == BuildableStructure.PlacementState.INVALID) return;
         drawStructureHologram(minecraft, stack, partialTick, renderVec, structure, info, state, direction, drawBoundingBox);
-        return true;
     }
 
     public static void drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTicks, Vector3f pos, BuildableStructure structure, StructureInfo info, BuildableStructure.PlacementState state, Direction direction, boolean drawBoundingBox) {

@@ -1,10 +1,12 @@
-package design.aeonic.multitool.api.structure;
+package design.aeonic.multitool.network;
 
+import design.aeonic.multitool.api.structure.StructureInfo;
+import design.aeonic.multitool.api.structure.Structures;
+import design.aeonic.multitool.data.StructureBuildingRecipe;
 import design.aeonic.multitool.mixin.access.StructureTemplateAccess;
 import design.aeonic.multitool.registry.EMRecipeTypes;
 import design.aeonic.multitool.util.Locations;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,9 +17,9 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +27,6 @@ import java.util.Map;
  * Includes utilities for syncing structures to the client.
  */
 public class StructureSyncHandler {
-    private static Map<ResourceLocation, StructureInfo> STRUCTURE_INFO_MAP;
-
-    public static Map<ResourceLocation, StructureInfo> getStructureInfoMap() {
-        return STRUCTURE_INFO_MAP == null ? Map.of() : STRUCTURE_INFO_MAP;
-    }
-
     private static final String PROTOCOL_VERSION = "StructureSyncHandler_v0.1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             Locations.make("structures"),
@@ -40,9 +36,8 @@ public class StructureSyncHandler {
 
     public static void registerMessages() {
         int id = -1;
-        INSTANCE.registerMessage(++id, StructureInfoPacket.class, StructureInfoPacket::encode, StructureInfoPacket::decode, (packet, ctx) -> {
-//            EngineersMultitool.LOGGER.info(packet.infoMap());
-            STRUCTURE_INFO_MAP = packet.infoMap();
+        INSTANCE.registerMessage(++id, ClientBoundStructuresPacket.class, ClientBoundStructuresPacket::encode, ClientBoundStructuresPacket::decode, (packet, ctx) -> {
+            Structures.setStructureMap(packet.structureMap());
             ctx.get().setPacketHandled(true);
         });
     }
@@ -62,30 +57,21 @@ public class StructureSyncHandler {
         RecipeManager recipes = server.getRecipeManager();
         StructureManager structures = server.getStructureManager();
 
-        Map<ResourceLocation, StructureInfo> structureInfo = new HashMap<>();
+        Structures.clear();
         recipes.getAllRecipesFor(EMRecipeTypes.MULTITOOL_BUILDING.get()).forEach(recipe -> {
             try {
                 ResourceLocation location = recipe.structure().structure();
-                structures.get(location).ifPresent(template -> structureInfo.put(location, new StructureInfo(template.getSize(),
-                        ((StructureTemplateAccess) template).getPalettes().get(0).blocks().stream().map(StructureInfo.PosAndState::fromStructureBlockInfo).toList())));
+                structures.get(location).ifPresent(template -> Structures.putStructure(recipe.getId(), Pair.of(recipe.structure(),
+                        new StructureInfo(template.getSize(), ((StructureTemplateAccess) template).getPalettes().get(0).blocks().stream().map(StructureInfo.PosAndState::fromStructureBlockInfo).toList()))));
             } catch (ResourceLocationException ignored) {}
         });
 
-        STRUCTURE_INFO_MAP = structureInfo;
-        StructureInfoPacket packet = new StructureInfoPacket(structureInfo);
+
+        ClientBoundStructuresPacket packet = new ClientBoundStructuresPacket(Structures.getStructureMap());
         if (players == null)
             server.getPlayerList().getPlayers().forEach(player -> StructureSyncHandler.INSTANCE.sendTo(packet, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT));
         else
             players.forEach(player -> StructureSyncHandler.INSTANCE.sendTo(packet, player.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT));
     }
 
-    public record StructureInfoPacket(Map<ResourceLocation, StructureInfo> infoMap) {
-        public static void encode(StructureInfoPacket packet, FriendlyByteBuf buf) {
-            buf.writeMap(packet.infoMap(), FriendlyByteBuf::writeResourceLocation, (buf2, info) -> buf2.writeWithCodec(StructureInfo.CODEC, info));
-        }
-
-        public static StructureInfoPacket decode(FriendlyByteBuf buf) {
-            return new StructureInfoPacket(buf.readMap(FriendlyByteBuf::readResourceLocation, buf2 -> buf2.readWithCodec(StructureInfo.CODEC)));
-        }
-    }
 }

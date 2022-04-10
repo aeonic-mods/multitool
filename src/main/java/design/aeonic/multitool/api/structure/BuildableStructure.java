@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -38,11 +37,6 @@ public record BuildableStructure(String langKey, ResourceLocation structure, Vec
 
     public Vec3i origin(Direction direction) {
         return Vectors.rotateFromNorth(origin(), direction);
-    }
-
-    public @Nullable
-    StructureInfo getStructureInfo() {
-        return StructureSyncHandler.getStructureInfoMap().get(structure());
     }
 
     public PlacementState checkPlacement(Level level, BlockPos placementOrigin, StructureInfo info, Direction direction) {

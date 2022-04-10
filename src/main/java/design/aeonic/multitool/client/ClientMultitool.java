@@ -1,14 +1,12 @@
 package design.aeonic.multitool.client;
 
-import design.aeonic.multitool.api.structure.StructureBuildingRecipe;
+import design.aeonic.multitool.data.StructureBuildingRecipe;
 import design.aeonic.multitool.registry.EMItems;
 import design.aeonic.multitool.registry.EMRecipeTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 

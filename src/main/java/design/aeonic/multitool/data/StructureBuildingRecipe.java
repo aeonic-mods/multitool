@@ -1,12 +1,12 @@
-package design.aeonic.multitool.api.structure;
+package design.aeonic.multitool.data;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import design.aeonic.multitool.EngineersMultitool;
+import design.aeonic.multitool.api.structure.BuildableStructure;
 import design.aeonic.multitool.registry.EMRecipeTypes;
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -20,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -45,7 +44,6 @@ public record StructureBuildingRecipe(ResourceLocation recipeId, BuildableStruct
 
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        StackedContents stackedcontents = new StackedContents();
         List<ItemStack> inputs = new ArrayList<>();
         for(int i = 0; i < pContainer.getContainerSize(); i++) {
             inputs.add(pContainer.getItem(i));

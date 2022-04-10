@@ -1,4 +1,4 @@
-package design.aeonic.multitool.content.multitool.networking;
+package design.aeonic.multitool.network;
 
 import design.aeonic.multitool.content.multitool.behaviors.StructureBuildingBehavior;
 import design.aeonic.multitool.registry.EMItems;
@@ -19,16 +19,16 @@ public class MultitoolSyncHandler {
 
     public static void registerMessages() {
         int id = -1;
-        INSTANCE.registerMessage(++id, BehaviorSelectPacket.class, BehaviorSelectPacket::encode, BehaviorSelectPacket::decode, (packet, ctx) -> {
+        INSTANCE.registerMessage(++id, ServerBoundBehaviorSelectPacket.class, ServerBoundBehaviorSelectPacket::encode, ServerBoundBehaviorSelectPacket::decode, (packet, ctx) -> {
             EMItems.MULTITOOL.get().handleBehaviorSelectScreenClosed(Objects.requireNonNull(ctx.get().getSender()), packet.hand(), packet.behavior());
             ctx.get().setPacketHandled(true);
         });
-        INSTANCE.registerMessage(++id, StructureSelectPacket.class, StructureSelectPacket::encode, StructureSelectPacket::decode, (packet, ctx) -> {
+        INSTANCE.registerMessage(++id, ServerBoundStructureSelectPacket.class, ServerBoundStructureSelectPacket::encode, ServerBoundStructureSelectPacket::decode, (packet, ctx) -> {
             ServerPlayer player = Objects.requireNonNull(ctx.get().getSender());
             var stack = player.getItemInHand(packet.hand());
             if (stack.is(EMItems.MULTITOOL.get()))
                 if (EMItems.MULTITOOL.get().getSelectedBehavior(stack) instanceof StructureBuildingBehavior behavior)
-                    behavior.handleStructureSelect(player, packet.hand(), packet.recipe(), packet.direction());
+                    behavior.handleStructureSelect(player, packet.hand(), packet.key(), packet.direction());
             ctx.get().setPacketHandled(true);
         });
     }
