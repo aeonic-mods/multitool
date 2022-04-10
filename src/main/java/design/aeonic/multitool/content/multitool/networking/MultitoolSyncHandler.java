@@ -1,7 +1,9 @@
 package design.aeonic.multitool.content.multitool.networking;
 
+import design.aeonic.multitool.content.multitool.behaviors.StructureBuildingBehavior;
 import design.aeonic.multitool.registry.EMItems;
 import design.aeonic.multitool.util.Locations;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
@@ -19,6 +21,14 @@ public class MultitoolSyncHandler {
         int id = -1;
         INSTANCE.registerMessage(++id, BehaviorSelectPacket.class, BehaviorSelectPacket::encode, BehaviorSelectPacket::decode, (packet, ctx) -> {
             EMItems.MULTITOOL.get().handleBehaviorSelectScreenClosed(Objects.requireNonNull(ctx.get().getSender()), packet.hand(), packet.behavior());
+            ctx.get().setPacketHandled(true);
+        });
+        INSTANCE.registerMessage(++id, StructureSelectPacket.class, StructureSelectPacket::encode, StructureSelectPacket::decode, (packet, ctx) -> {
+            ServerPlayer player = Objects.requireNonNull(ctx.get().getSender());
+            var stack = player.getItemInHand(packet.hand());
+            if (stack.is(EMItems.MULTITOOL.get()))
+                if (EMItems.MULTITOOL.get().getSelectedBehavior(stack) instanceof StructureBuildingBehavior behavior)
+                    behavior.handleStructureSelect(player, packet.hand(), packet.recipe());
             ctx.get().setPacketHandled(true);
         });
     }

@@ -10,6 +10,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class StructureSyncReloadListener implements ResourceManagerReloadListener {
     @Override
     public void onResourceManagerReload(ResourceManager pResourceManager) {
-        StructureSyncHandler.syncStructureSizesToConnectedPlayers();
+        StructureSyncHandler.syncStructureBlocksToPlayers(null);
     }
 }

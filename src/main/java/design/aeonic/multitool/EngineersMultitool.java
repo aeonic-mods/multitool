@@ -2,11 +2,13 @@ package design.aeonic.multitool;
 
 import design.aeonic.multitool.api.Constants;
 import design.aeonic.multitool.api.Registries;
-import design.aeonic.multitool.api.data.MultitoolBuildingRecipe;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
+import design.aeonic.multitool.api.structure.StructureBuildingRecipe;
 import design.aeonic.multitool.api.structure.StructureSyncHandler;
+import design.aeonic.multitool.content.multitool.ClientMultitool;
 import design.aeonic.multitool.content.multitool.behaviors.DebugBehavior;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
+import design.aeonic.multitool.content.multitool.behaviors.StructureBuildingBehavior;
 import design.aeonic.multitool.content.multitool.networking.MultitoolSyncHandler;
 import design.aeonic.multitool.data.StructureSyncReloadListener;
 import design.aeonic.multitool.registry.EMItems;
@@ -15,7 +17,6 @@ import design.aeonic.multitool.registry.EMRegistrate;
 import design.aeonic.multitool.registry.EMSounds;
 import design.aeonic.multitool.util.Locations;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -44,6 +45,10 @@ public class EngineersMultitool {
         var bus = MinecraftForge.EVENT_BUS;
         bus.addListener(EngineersMultitool::addReloadListeners);
         bus.addListener(StructureSyncHandler::onPlayerLogin);
+
+        // Client
+        bus.addListener(ClientMultitool::renderLevelLast);
+        bus.addListener(ClientMultitool::mouseScroll);
     }
 
     // Forge events
@@ -56,14 +61,15 @@ public class EngineersMultitool {
 
     @SubscribeEvent
     public static void registerRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event) {
-        event.getRegistry().register(MultitoolBuildingRecipe.SERIALIZER.setRegistryName(Locations.make("multitool_building")));
+        event.getRegistry().register(StructureBuildingRecipe.SERIALIZER.setRegistryName(Locations.make("multitool_building")));
     }
 
     @SubscribeEvent
     public static void registerMultitoolBehaviors(RegistryEvent.Register<MultitoolBehavior> event) {
         event.getRegistry().registerAll(
                 EmptyBehavior.INSTANCE.setRegistryName(EmptyBehavior.KEY),
-                new DebugBehavior().setRegistryName(Locations.make("debug"))
+                new DebugBehavior().setRegistryName(Locations.make("debug")),
+                new StructureBuildingBehavior().setRegistryName(Locations.make("structure_building"))
         );
     }
 
@@ -82,5 +88,6 @@ public class EngineersMultitool {
     @SubscribeEvent
     public static void runData(GatherDataEvent event) {
         Constants.Translations.load();
+//        TestData.genData();
     }
 }
