@@ -38,9 +38,16 @@ public class MultitoolItem extends Item {
     }
 
     @Override
+    public boolean onDroppedByPlayer(ItemStack item, Player player) {
+        // TODO: Move to a pickup mixin or something
+        setSelectedBehavior(player, item, EmptyBehavior.INSTANCE);
+        return super.onDroppedByPlayer(item, player);
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         var stack = pPlayer.getItemInHand(pUsedHand);
-        if (pPlayer.isCrouching()) {
+        if (pPlayer.isShiftKeyDown()) {
             if (!(pPlayer instanceof ServerPlayer)) {
                 MultitoolSelectScreen.open(stack, pUsedHand);
             }
@@ -73,7 +80,7 @@ public class MultitoolItem extends Item {
         var stack = player.getItemInHand(hand);
         if (!stack.is(EMItems.MULTITOOL.get()) || !behavior.allowedForPlayer(player, hand, stack)) return;
 
-        if (player instanceof ServerPlayer serverPlayer) {
+        if (player instanceof ServerPlayer) {
             setSelectedBehavior(player, stack, behavior);
         } else {
             MultitoolSyncHandler.INSTANCE.sendToServer(new BehaviorSelectPacket(behavior, hand));

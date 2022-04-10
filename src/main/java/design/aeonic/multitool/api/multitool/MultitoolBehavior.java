@@ -14,6 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,6 +52,10 @@ public abstract class MultitoolBehavior extends ForgeRegistryEntry<MultitoolBeha
      * Called by the multitool item's own method when this behavior is active.
      */
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {}
+
+    public void renderLevelLast(RenderLevelLastEvent event, InteractionHand hand, ItemStack stack) {}
+
+    public void mouseScroll(InputEvent.MouseScrollEvent event, InteractionHand hand, ItemStack stack) {}
 
     // INTERACTIONS
 
