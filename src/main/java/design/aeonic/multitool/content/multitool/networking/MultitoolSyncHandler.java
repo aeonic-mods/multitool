@@ -28,7 +28,7 @@ public class MultitoolSyncHandler {
             var stack = player.getItemInHand(packet.hand());
             if (stack.is(EMItems.MULTITOOL.get()))
                 if (EMItems.MULTITOOL.get().getSelectedBehavior(stack) instanceof StructureBuildingBehavior behavior)
-                    behavior.handleStructureSelect(player, packet.hand(), packet.recipe());
+                    behavior.handleStructureSelect(player, packet.hand(), packet.recipe(), packet.direction());
             ctx.get().setPacketHandled(true);
         });
     }

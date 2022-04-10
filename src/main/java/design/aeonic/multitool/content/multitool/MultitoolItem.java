@@ -40,7 +40,7 @@ public class MultitoolItem extends Item {
     @Override
     public boolean onDroppedByPlayer(ItemStack item, Player player) {
         // TODO: Move to a pickup mixin or something
-        setSelectedBehavior(player, item, EmptyBehavior.INSTANCE);
+        setSelectedBehavior(player, InteractionHand.MAIN_HAND, item, EmptyBehavior.INSTANCE);
         return super.onDroppedByPlayer(item, player);
     }
 
@@ -68,11 +68,6 @@ public class MultitoolItem extends Item {
         return super.onItemUseFirst(stack, context);
     }
 
-    @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.CROSSBOW;
-    }
-
     /**
      * Called on both sides. The client sends a packet to the server; the server serializes NBT data which is later synced back automatically.
      */
@@ -81,7 +76,7 @@ public class MultitoolItem extends Item {
         if (!stack.is(EMItems.MULTITOOL.get()) || !behavior.allowedForPlayer(player, hand, stack)) return;
 
         if (player instanceof ServerPlayer) {
-            setSelectedBehavior(player, stack, behavior);
+            setSelectedBehavior(player, hand, stack, behavior);
         } else {
             MultitoolSyncHandler.INSTANCE.sendToServer(new BehaviorSelectPacket(behavior, hand));
         }
@@ -98,12 +93,12 @@ public class MultitoolItem extends Item {
         return new ResourceLocation(id);
     }
 
-    public void setSelectedBehavior(Player player, ItemStack stack, MultitoolBehavior behavior) {
+    public void setSelectedBehavior(Player player, InteractionHand hand, ItemStack stack, MultitoolBehavior behavior) {
         var oldBehavior = getSelectedBehavior(stack);
-        if (!(oldBehavior == behavior)) oldBehavior.onDeselected(player, stack);
+        if (!(oldBehavior == behavior)) oldBehavior.onDeselected(player, hand, stack);
         var key = behavior.getRegistryName();
         stack.getOrCreateTag().putString("Mode", key == null ? EmptyBehavior.KEY.toString() : key.toString());
-        behavior.onSelected(player, stack);
+        behavior.onSelected(player, hand, stack);
     }
 
     @Override

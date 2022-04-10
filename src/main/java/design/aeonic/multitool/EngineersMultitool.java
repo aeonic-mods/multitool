@@ -5,7 +5,7 @@ import design.aeonic.multitool.api.Registries;
 import design.aeonic.multitool.api.multitool.MultitoolBehavior;
 import design.aeonic.multitool.api.structure.StructureBuildingRecipe;
 import design.aeonic.multitool.api.structure.StructureSyncHandler;
-import design.aeonic.multitool.content.multitool.ClientMultitool;
+import design.aeonic.multitool.client.ClientMultitool;
 import design.aeonic.multitool.content.multitool.behaviors.DebugBehavior;
 import design.aeonic.multitool.content.multitool.behaviors.EmptyBehavior;
 import design.aeonic.multitool.content.multitool.behaviors.StructureBuildingBehavior;
@@ -37,15 +37,18 @@ public class EngineersMultitool {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EngineersMultitool() {
+        var bus = MinecraftForge.EVENT_BUS;
+
+        // Registries
         EMItems.defer();
         EMSounds.defer();
+        // Packets
         MultitoolSyncHandler.registerMessages();
         StructureSyncHandler.registerMessages();
 
-        var bus = MinecraftForge.EVENT_BUS;
+        // Server / common
         bus.addListener(EngineersMultitool::addReloadListeners);
         bus.addListener(StructureSyncHandler::onPlayerLogin);
-
         // Client
         bus.addListener(ClientMultitool::renderLevelLast);
         bus.addListener(ClientMultitool::mouseScroll);

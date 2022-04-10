@@ -1,4 +1,4 @@
-package design.aeonic.multitool.content.multitool;
+package design.aeonic.multitool.client;
 
 import design.aeonic.multitool.api.structure.StructureBuildingRecipe;
 import design.aeonic.multitool.registry.EMItems;

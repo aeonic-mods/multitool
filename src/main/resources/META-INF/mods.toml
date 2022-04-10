@@ -51,12 +51,6 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId="immersiveengineering"
-mandatory=true
-versionRange="[${ie_version},)"
-ordering="AFTER"
-
-[[dependencies.${mod_id}]]
 modId="jei"
 mandatory=false
 versionRange="[${jei_version},)"

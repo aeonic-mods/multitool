@@ -5,6 +5,7 @@ import design.aeonic.multitool.client.MultitoolSelectScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -51,12 +52,12 @@ public interface ISelectable<T extends RadialSelectScreen<T, S>, S extends ISele
      * @param player the player
      * @param stack the multitool stack
      */
-    default void onSelected(Player player, ItemStack stack) {}
+    default void onSelected(Player player, InteractionHand hand, ItemStack stack) {}
 
     /**
      * Called on both sides when this object is deselected (that is, a different option has been switched to).
      * @param player the player
      * @param stack the multitool stack
      */
-    default void onDeselected(Player player, ItemStack stack) {}
+    default void onDeselected(Player player, InteractionHand hand, ItemStack stack) {}
 }

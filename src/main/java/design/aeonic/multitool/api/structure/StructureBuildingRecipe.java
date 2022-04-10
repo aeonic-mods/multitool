@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import design.aeonic.multitool.EngineersMultitool;
 import design.aeonic.multitool.registry.EMRecipeTypes;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -19,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -27,6 +29,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,7 +45,13 @@ public record StructureBuildingRecipe(ResourceLocation recipeId, BuildableStruct
 
     @Override
     public boolean matches(Container pContainer, Level pLevel) {
-        return true;
+        StackedContents stackedcontents = new StackedContents();
+        List<ItemStack> inputs = new ArrayList<>();
+        for(int i = 0; i < pContainer.getContainerSize(); i++) {
+            inputs.add(pContainer.getItem(i));
+        }
+
+        return RecipeMatcher.findMatches(inputs,  this.ingredients) != null;
     }
 
     @Override

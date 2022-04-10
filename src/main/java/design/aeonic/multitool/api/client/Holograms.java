@@ -1,28 +1,19 @@
 package design.aeonic.multitool.api.client;
 
-import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import design.aeonic.multitool.EngineersMultitool;
-import design.aeonic.multitool.api.Vectors;
 import design.aeonic.multitool.api.structure.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Objects;
 
 public class Holograms {
 
     public static boolean drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTick, BlockPos pos, Vector3f renderPos, Direction direction, BuildableStructure structure, boolean drawBoundingBox) {
-        StructureSyncHandler.StructureInfo info = structure.getStructureInfo();
+        StructureInfo info = structure.getStructureInfo();
         if (info == null) return false;
         Vector3f renderVec = renderPos == null ? new Vector3f(pos.getX(), pos.getY(), pos.getZ()) : renderPos.copy();
         BuildableStructure.PlacementState state = structure.checkPlacement(Objects.requireNonNull(minecraft.level), pos, info, direction);
@@ -31,7 +22,7 @@ public class Holograms {
         return true;
     }
 
-    public static void drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTicks, Vector3f pos, BuildableStructure structure, StructureSyncHandler.StructureInfo info, BuildableStructure.PlacementState state, Direction direction, boolean drawBoundingBox) {
+    public static void drawStructureHologram(Minecraft minecraft, PoseStack stack, float partialTicks, Vector3f pos, BuildableStructure structure, StructureInfo info, BuildableStructure.PlacementState state, Direction direction, boolean drawBoundingBox) {
         // TODO: Optimize rendering - move rotations outside of rendering methods to first call
         if (state == BuildableStructure.PlacementState.INVALID) return;
 

@@ -2,7 +2,6 @@ package design.aeonic.multitool.api.structure;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import design.aeonic.multitool.EngineersMultitool;
 import design.aeonic.multitool.api.Vectors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -42,15 +40,17 @@ public record BuildableStructure(String langKey, ResourceLocation structure, Vec
         return Vectors.rotateFromNorth(origin(), direction);
     }
 
-    public @Nullable StructureSyncHandler.StructureInfo getStructureInfo() {
+    public @Nullable
+    StructureInfo getStructureInfo() {
         return StructureSyncHandler.getStructureInfoMap().get(structure());
     }
 
-    public PlacementState checkPlacement(Level level, BlockPos placementOrigin, StructureSyncHandler.StructureInfo info, Direction direction) {
+    public PlacementState checkPlacement(Level level, BlockPos placementOrigin, StructureInfo info, Direction direction) {
         if (level.getBlockState(placementOrigin.offset(0, - origin().getY() - 1, 0)).isAir()) return PlacementState.INVALID;
         BlockPos pos = placementOrigin.offset(origin(direction).multiply(-1));
-        Vec3i size = Vectors.rotateFromNorth(info.size(), direction);
-        AABB checkBox = new AABB(0, 0, 0, size.getX() - 1, size.getY(), size.getZ() - 1).move(pos);
+        // I don't remember why this works but it does so I'm going to leave it alone
+        Vec3i size = Vectors.rotateFromNorth(info.size().offset(-1, 0, -1), direction);
+        AABB checkBox = new AABB(0, 0, 0, size.getX(), size.getY(), size.getZ()).move(pos);
         Stream<BlockState> states = level.getBlockStatesIfLoaded(checkBox);
         if (states.filter(s -> !s.getMaterial().isReplaceable()).toList().size() > 0)
             return PlacementState.OCCLUDED;
